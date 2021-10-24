@@ -133,3 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+BASE_DIR_PATH = '/Users/gautham/Documents/Documents - gBookPro/Berkeley MIMS/CalHacks/prototype/Artify/frontend/'
+
+BASE_DIR_NEURAL_PATH = '/Users/gautham/Documents/Documents - gBookPro/Berkeley MIMS/CalHacks/prototype/Artify/frontend/static'
