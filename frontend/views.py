@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .lda_model import fetch_lda_topics
+from .artselection import *
+from gensim.models import Word2Vec, KeyedVectors
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -13,6 +15,8 @@ USERNAME = 'qlwcqn7y0j7k5o94h5qr54nwx'
 URI = 'http://localhost:8080/'
 scope = 'user-read-currently-playing'
 client_access_token = "vqYbB498w-UVWrx_Kltx2san_Y0p4aYekxT2NmQNWVujjwk70bvAg0LcZMmC9kNw"
+
+glove = KeyedVectors.load_word2vec_format("glove.6B.100d.100K.w2v.txt", binary=False)
 
 def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
@@ -31,6 +35,8 @@ def login(request):
     # print(sp.playlist('5EUmcvQrnMPV0RjkdvgdgO'))
     print(sp.current_user_playing_track()['item']['name'])
 
+    current_song = sp.current_user_playing_track()['item']['name']
+
     track_id = sp.current_user_playing_track()['item']['id']
     recs = sp.recommendations(seed_tracks=[track_id])
 
@@ -47,7 +53,11 @@ def login(request):
 
     # track_name = track['name']
 
-    fetch_lda_topics(spotify_list, client_access_token)
+    lda_topics = fetch_lda_topics(spotify_list, client_access_token)
+
+    print(lda_topics)
+    art_list = open_art()
+    song = buildSong(current_song, topics_list = lda_topics)
 
     return render(request, 'result.html')
 
