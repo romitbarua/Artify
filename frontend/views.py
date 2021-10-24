@@ -16,7 +16,8 @@ URI = 'http://localhost:8080/'
 scope = 'user-read-currently-playing'
 client_access_token = "vqYbB498w-UVWrx_Kltx2san_Y0p4aYekxT2NmQNWVujjwk70bvAg0LcZMmC9kNw"
 
-glove = KeyedVectors.load_word2vec_format("glove.6B.100d.100K.w2v.txt", binary=False)
+glove = KeyedVectors.load_word2vec_format("/Users/gautham/Documents/Documents - gBookPro/Berkeley MIMS/CalHacks/prototype/Artify/frontend/data/glove.6B.100d.100K.w2v.txt", binary=False)
+art_list = open_art()
 
 def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
@@ -25,7 +26,6 @@ def index(request):
 
 def login(request):
 
-    print('Here')
     auth = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,redirect_uri=URI,  username=USERNAME)
 
     client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET) 
@@ -44,20 +44,22 @@ def login(request):
 
     spotify_list = []
 
-    for track in recs['tracks']:
+    for track in recs['tracks'][:5]:
         # print('{}: {}'.format(track['name'], track['id']))
-        print('{}: {}'.format(track['name']))
+
         id = track['id']
         artist_name = sp.track(id)['artists'][0]['name']
         spotify_list.append((artist_name, track['name']))
 
     # track_name = track['name']
 
-    lda_topics = fetch_lda_topics(spotify_list, client_access_token)
+    lda_topics = fetch_lda_topics(spotify_list, client_access_token, 20)
 
-    print(lda_topics)
-    art_list = open_art()
-    song = buildSong(current_song, topics_list = lda_topics)
+    song = buildSong(current_song, topics_list = lda_topics, glove = glove)
+
+    best_art = getBestArt(song, art_list)
+
+    print(best_art)
 
     return render(request, 'result.html')
 

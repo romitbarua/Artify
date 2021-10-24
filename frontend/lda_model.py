@@ -33,7 +33,7 @@ def clean_lyrics(lyrics):
                          '9something4embedshare', "'s"]
 
     stop_words_jockers = list(stopwords.words('english'))
-    stop_words_jockers += read_stopwords("jockers.stopwords")
+    stop_words_jockers += read_stopwords("/Users/gautham/Documents/Documents - gBookPro/Berkeley MIMS/CalHacks/prototype/Artify/frontend/data/jockers.stopwords")
     stop_words = stop_words_jockers + stop_words_custom
     punctuation_exclude = set(string.punctuation)
     lemma = WordNetLemmatizer()
@@ -82,7 +82,7 @@ def run_lda_model(lyrics_words, num_topics):
     #print(list(topics.values()))
     return " ".join(list(topics.values()))
 
-def fetch_lda_topics(spotify_list, client_access_token):
+def fetch_lda_topics(spotify_list, client_access_token, num_topics):
     genius = lyricsgenius.Genius(client_access_token)
 
     lyrics = []
@@ -97,5 +97,5 @@ def fetch_lda_topics(spotify_list, client_access_token):
 
     cleaned_lyrics = clean_lyrics(lyrics)
 
-    run_lda_model(cleaned_lyrics, 20)
+    return run_lda_model(cleaned_lyrics, num_topics)
 

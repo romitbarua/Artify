@@ -9,7 +9,7 @@ def calc_sentiment(text):
 def sentiment_scores(row):
     return calc_sentiment(row.Word)['compound']
     
-emotion_data = pd.read_csv('emotion_terms.csv')
+emotion_data = pd.read_csv('/Users/gautham/Documents/Documents - gBookPro/Berkeley MIMS/CalHacks/prototype/Artify/frontend/data/emotion_terms.csv')
 emotion_data['compound_score'] = emotion_data.apply(sentiment_scores, axis=1)
 
 def findClosestVader(text, num_words):

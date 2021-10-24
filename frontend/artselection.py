@@ -1,8 +1,8 @@
 from gensim.models import Word2Vec, KeyedVectors
 from gensim.scripts.glove2word2vec import glove2word2vec
 import pickle
-from ArtPiece import ArtPiece
 from .Song import Song
+from .ArtPiece import ArtPiece
 from .Vader import *
 
 def open_art():
@@ -38,3 +38,30 @@ def buildSong(name, topics_list, glove, artist=None):
     song.set_vader_embedding(vader_embeddings)
 
     return song
+
+
+def compareSongArt(song, art, glove):
+    
+    cosine_score = 0
+    song_emb = song.get_combined_embedding()
+    art_emb = art.get_combined_embedding()
+    for i in range(len(song_emb)):
+        for j in range(len(art_emb)):
+            #print(glove.cosine_similarities(song_emb, [art_emb]))
+            cosine_score += glove.cosine_similarities(song_emb[i], [art_emb[j]])
+            
+    cosine_score = cosine_score/(len(song.get_combined_embedding()) * len(art.get_combined_embedding()))
+    return cosine_score
+
+def getBestArt(song, art_pieces):
+    
+    max_cosine = 0 
+    best_art = None
+
+    for art in art_pieces:
+        cosine_score = compareSongArt(song, art)
+        if cosine_score > max_cosine:
+            max_cosine = cosine_score
+            best_art = art
+    
+    return best_art
