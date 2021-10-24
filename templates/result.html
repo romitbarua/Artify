@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    Artify
+  </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:100" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  
+  {% load static %}
+  
+  <link rel='stylesheet' href='{% static 'css/style.css' %}' />
+</head>
+
+<body style="background-image: url({% static 'images/mount_fuji.jpg' %});background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+
+
+  <div style="display: table; height: 100%; width:100%; margin: 15em auto; overflow: hidden;">
+    <div style="display: table-cell; vertical-align: middle; text-align:center;">
+      <div class="t4"><b style="text-transform:uppercase; font-size: 250%;">Artify</b></div>
+      <div class="t5" style="color: black;font-weight:500%; font-size: 300%">landscapes based on your latest Spotify listens</div>
+      <button id="startButton" class="t3" style="color: black">START</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
